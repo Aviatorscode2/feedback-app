@@ -1,24 +1,19 @@
 {
   "feedback": [
     {
-      "id": 1,
-      "rating": 10,
-      "text": "This is from json server item 1"
-    },
-    {
-      "id": 2,
+      "text": "what are you doing",
       "rating": 5,
-      "text": "This is from json server item 2"
+      "id": 1
     },
     {
-      "id": 3,
-      "rating": 8,
-      "text": "This is from json server item 3"
+      "text": "is this the average score",
+      "rating": 9,
+      "id": 2
     },
     {
-      "rating": "10",
-      "text": "This is from postman item 4",
-      "id": 4
+      "text": "ooh shit, it seems to be working",
+      "rating": 10,
+      "id": 3
     }
   ]
 }

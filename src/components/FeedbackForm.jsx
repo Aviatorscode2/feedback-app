@@ -15,24 +15,38 @@ function FeedbackForm() {
 
   useEffect(() => {
     if (feedbackEdit.edit === true) {
-      setBtnDisabled(true);
+      setBtnDisabled(false);
       setText(feedbackEdit.item.text);
       setRating(feedbackEdit.item.rating);
     }
   }, [feedbackEdit]);
 
-  const handleTextChange = (e) => {
-    if (text === '') {
+  // const handleTextChange = (e) => {
+  //   if (text === '') {
+  //     setBtnDisabled(true);
+  //     setMessage(null);
+  //   } else if (text !== '' && text.trim().length <= 10) {
+  //     setBtnDisabled(true);
+  //     setMessage('Text must be at least 10 characters');
+  //   } else {
+  //     setBtnDisabled(false);
+  //     setMessage(null);
+  //   }
+  //   setText(e.target.value);
+  // };
+
+  const handleTextChange = ({ target: { value } }) => {
+    if (value === '') {
       setBtnDisabled(true);
       setMessage(null);
-    } else if (text !== '' && text.trim().length <= 10) {
-      setBtnDisabled(true);
+    } else if (value.trim().length < 10) {
       setMessage('Text must be at least 10 characters');
+      setBtnDisabled(true);
     } else {
-      setBtnDisabled(false);
       setMessage(null);
+      setBtnDisabled(false);
     }
-    setText(e.target.value);
+    setText(value);
   };
 
   const handleSubmit = (e) => {
@@ -48,6 +62,8 @@ function FeedbackForm() {
         addFeedback(newFeedback);
       }
       // After the feedback has been sent, clear the input field
+      setBtnDisabled(true);
+      setRating(10);
       setText('');
     }
   };
