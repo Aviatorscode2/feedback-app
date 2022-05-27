@@ -1,10 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
+
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [feedback, setFeedback] = useState([]);
-
   const [feedbackEdit, setFeedbackEdit] = useState({
     item: {},
     edit: false,
@@ -35,24 +35,8 @@ export const FeedbackProvider = ({ children }) => {
     });
 
     const data = await response.json();
+
     setFeedback([data, ...feedback]);
-  };
-
-  // Update feedback item
-  const updateFeedback = async (id, updatedItem) => {
-    const response = await fetch(`/feedback/${id}`, {
-      method: 'PUT',
-      headers: {
-        'COntent-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedItem),
-    });
-
-    const data = await response.json();
-
-    setFeedback(
-      feedback.map((item) => (item.id === id ? { ...item, ...data } : item))
-    );
   };
 
   // function to delete feedback
@@ -64,6 +48,29 @@ export const FeedbackProvider = ({ children }) => {
     }
   };
 
+  // Update feedback item
+  const updateFeedback = async (id, updatedItem) => {
+    const response = await fetch(`/feedback/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedItem),
+    });
+
+    const data = await response.json();
+
+    setFeedback(feedback.map((item) => (item.id === id ? data : item)));
+
+    setFeedbackEdit({
+      item: {},
+      edit: false,
+    });
+    // setFeedback(
+    //   feedback.map((item) => (item.id === id ? { ...item, ...data } : item))
+    // );
+  };
+
   // Set item to be updated
   const editFeedback = (item) => {
     setFeedbackEdit({
@@ -71,16 +78,17 @@ export const FeedbackProvider = ({ children }) => {
       edit: true,
     });
   };
+
   return (
     <FeedbackContext.Provider
       value={{
         feedback,
+        feedbackEdit,
+        isLoading,
         deleteFeedback,
         addFeedback,
         editFeedback,
-        feedbackEdit,
         updateFeedback,
-        isLoading,
       }}
     >
       {children}
